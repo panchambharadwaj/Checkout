@@ -1,8 +1,8 @@
 class Checkout:
 
     class Discount:
-        def __init__(self, nbrItems, price):
-            self.nbrItems = nbrItems
+        def __init__(self, numberItems, price):
+            self.numberItems = numberItems
             self.price = price
 
     def __init__(self):
@@ -10,8 +10,8 @@ class Checkout:
         self.discounts = {}
         self.items = {}
 
-    def addDiscount(self, item, nbrOfItems, price):
-        discount = self.Discount(nbrOfItems, price)
+    def addDiscount(self, item, numberOfItems, price):
+        discount = self.Discount(numberOfItems, price)
         self.discounts[item] = discount
 
     def addItemPrice(self, item, price):
@@ -27,27 +27,27 @@ class Checkout:
 
     def calculateTotal(self):
         total = 0
-        for item, cnt in self.items.items():
-            total += self.calculateItemTotal(item, cnt)
+        for item, count in self.items.items():
+            total += self.calculateItemTotal(item, count)
         return total
 
-    def calculateItemTotal(self, item, cnt):
+    def calculateItemTotal(self, item, count):
         total = 0
         if item in self.discounts:
             discount = self.discounts[item]
-            if cnt >= discount.nbrItems:
-                total += self.calculateItemDiscountedTotal(item, cnt, discount)
+            if count >= discount.numberItems:
+                total += self.calculateItemDiscountedTotal(item, count, discount)
             else:
-                total += self.prices[item] * cnt
+                total += self.prices[item] * count
         else:
-            total += self.prices[item] * cnt
+            total += self.prices[item] * count
 
         return total
 
-    def calculateItemDiscountedTotal(self, item, cnt, discount):
+    def calculateItemDiscountedTotal(self, item, count, discount):
         total = 0
-        nbrOfDiscounts = cnt / discount.nbrItems
+        nbrOfDiscounts = count / discount.numberItems
         total += nbrOfDiscounts * discount.price
-        remaining = cnt % discount.nbrItems
+        remaining = count % discount.numberItems
         total += remaining * self.prices[item]
         return total
